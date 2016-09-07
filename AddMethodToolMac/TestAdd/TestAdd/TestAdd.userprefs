@@ -1,0 +1,16 @@
+﻿<Properties StartupItem="TestAdd.csproj">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Script/N1/N2/N4.cs">
+    <Files>
+      <File FileName="Script/N1/N1.cs" Line="5" Column="10" />
+      <File FileName="Script/N1/N2.cs" Line="5" Column="10" />
+      <File FileName="Script/N1/N2/N3.cs" Line="5" Column="10" />
+      <File FileName="Script/N1/N2/N4.cs" Line="5" Column="10" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.TestAdd PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>

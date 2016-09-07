@@ -1,0 +1,29 @@
+# Version: 2.8.2.22 (cycle7-sr1: f37444a)
+# [first argument, ignore] # /Users/luozhuocheng/IOS/HotFixForUnity/AddMethodToolMac/App/AddMethodTool/AddMethodTool/mmp.exe
+mmp.exe \
+	/verbose \
+	/debug \
+	/output:/Users/luozhuocheng/IOS/HotFixForUnity/AddMethodToolMac/App/AddMethodTool/AddMethodTool/bin/Debug/ \
+	/name:AddMethodTool \
+	/profile:4.5 \
+	/arch:x86_64 \
+	--http-message-handler=HttpClientHandler \
+	/minos=10.11 \
+	/sgen \
+	/new-refcount \
+	/nolink \
+	/assembly:/Library/Frameworks/Xamarin.Mac.framework/Versions/Current/lib/mono/4.5/System.dll \
+	/assembly:/Library/Frameworks/Xamarin.Mac.framework/Versions/Current/lib/mono/4.5/Xamarin.Mac.dll \
+	/assembly:/Users/luozhuocheng/IOS/HotFixForUnity/AddMethodToolMac/App/ICSharpCode.NRefactory.CSharp.dll \
+	/assembly:/Users/luozhuocheng/IOS/HotFixForUnity/AddMethodToolMac/App/ICSharpCode.NRefactory.dll \
+	/assembly:/Users/luozhuocheng/IOS/HotFixForUnity/AddMethodToolMac/App/Mono.Cecil.dll \
+	/assembly:/Library/Frameworks/Mono.framework/Versions/4.4.2/lib/mono/xbuild/12.0/bin/Microsoft.Build.dll \
+	/assembly:/Library/Frameworks/Mono.framework/Versions/4.4.2/lib/mono/xbuild/12.0/bin/Microsoft.Build.Framework.dll \
+	/assembly:/Library/Frameworks/Xamarin.Mac.framework/Versions/Current/lib/mono/4.5/System.Xml.dll \
+	/assembly:/Library/Frameworks/Xamarin.Mac.framework/Versions/Current/lib/mono/4.5/System.Core.dll \
+	/assembly:/Library/Frameworks/Xamarin.Mac.framework/Versions/Current/lib/mono/4.5/mscorlib.dll \
+	/Users/luozhuocheng/IOS/HotFixForUnity/AddMethodToolMac/App/AddMethodTool/AddMethodTool/bin/Debug/AddMethodTool.exe \
+	/sdkroot \
+	/Applications/Xcode.app/Contents/Developer \
+	--cache \
+	/Users/luozhuocheng/IOS/HotFixForUnity/AddMethodToolMac/App/AddMethodTool/AddMethodTool/obj/x86/Debug/mmp-cache \

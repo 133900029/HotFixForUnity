@@ -1,0 +1,5 @@
+/Users/luozhuocheng/IOS/HotFixForUnity/AddMethodToolMac/TestAdd/TestAdd/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/Users/luozhuocheng/IOS/HotFixForUnity/AddMethodToolMac/TestAdd/TestAdd/bin/Debug/TestAdd.exe.mdb
+/Users/luozhuocheng/IOS/HotFixForUnity/AddMethodToolMac/TestAdd/TestAdd/bin/Debug/TestAdd.exe
+/Users/luozhuocheng/IOS/HotFixForUnity/AddMethodToolMac/TestAdd/TestAdd/obj/x86/Debug/TestAdd.exe
+/Users/luozhuocheng/IOS/HotFixForUnity/AddMethodToolMac/TestAdd/TestAdd/obj/x86/Debug/TestAdd.exe.mdb

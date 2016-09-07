@@ -1,0 +1,19 @@
+﻿<Properties StartupItem="AddMethod.csproj">
+  <MonoDevelop.Ide.ItemProperties.AddMethod PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
+    <Files>
+      <File FileName="CSharpFile.cs" Line="43" Column="1" />
+      <File FileName="Program.cs" Line="53" Column="110" />
+      <File FileName="packages.config" Line="1" Column="1" />
+      <File FileName="ExpressionWithType.cs" Line="1" Column="1" />
+      <File FileName="app.config" Line="1" Column="1" />
+      <File FileName="Solution.cs" Line="62" Column="1" />
+      <File FileName="CSharpProject.cs" Line="85" Column="58" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

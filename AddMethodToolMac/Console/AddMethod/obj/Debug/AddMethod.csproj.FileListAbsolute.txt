@@ -1,0 +1,14 @@
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\StringIndexOf\bin\Debug\StringIndexOf.exe.config
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\StringIndexOf\obj\Debug\StringIndexOf.exe
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\StringIndexOf\obj\Debug\StringIndexOf.pdb
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\AddMethod\bin\Debug\ICSharpCode.NRefactory.CSharp.dll
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\AddMethod\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\AddMethod\bin\Debug\Mono.Cecil.dll
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\AddMethod\bin\Debug\ICSharpCode.NRefactory.xml
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\AddMethod\bin\Debug\ICSharpCode.NRefactory.CSharp.xml
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\AddMethod\bin\Debug\AddMethod.exe.config
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\AddMethod\bin\Debug\AddMethod.exe
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\AddMethod\bin\Debug\AddMethod.pdb
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\AddMethod\obj\Debug\AddMethod.exe
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\AddMethod\obj\Debug\AddMethod.pdb
+C:\Martin\GitHub\HotFixForUnity\AddMethodTool\AddMethod\obj\Debug\AddMethod.csprojResolveAssemblyReference.cache
