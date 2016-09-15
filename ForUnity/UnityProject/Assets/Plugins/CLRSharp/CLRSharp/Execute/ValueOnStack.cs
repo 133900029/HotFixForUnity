@@ -123,6 +123,8 @@ namespace CLRSharp
         public static VBox MakeVBox(NumberType code)
         {
 
+            if (unusedVBox == null)
+                unusedVBox = new Queue<VBox>();
             switch (code)
             {
                 case NumberType.BOOL:
@@ -139,6 +141,7 @@ namespace CLRSharp
                         var b = unusedVBox.Dequeue();
                         b.typeStack = NumberOnStack.Int32;
                         b.type = code;
+                        b.unuse = false;
                         return b;
                     }
                     return new VBox(NumberOnStack.Int32, code);
@@ -149,6 +152,7 @@ namespace CLRSharp
                         var b = unusedVBox.Dequeue();
                         b.typeStack = NumberOnStack.Int64;
                         b.type = code;
+                        b.unuse = false;
                         return b;
                     }
                     return new VBox(NumberOnStack.Int64, code);
@@ -159,6 +163,7 @@ namespace CLRSharp
                         var b = unusedVBox.Dequeue();
                         b.typeStack = NumberOnStack.Double;
                         b.type = code;
+                        b.unuse = false;
                         return b;
                     }
                     return new VBox(NumberOnStack.Double, code);
@@ -231,10 +236,20 @@ namespace CLRSharp
         //public static Queue<IBox> unusedInt64 = new Queue<IBox>();
         //public static Queue<IBox> unusedIntFL = new Queue<IBox>();
 
-        public static Queue<VBox> unusedVBox = new Queue<VBox>();
+        //[ThreadStatic]
+        //public static Queue<VBox> unusedVBox = new Queue<VBox>();//引以为戒，这个初始化对tlb没用，其他线程还是null
+
+        [ThreadStatic]
+        public static Queue<VBox> unusedVBox = null;
         public static void UnUse(VBox box)
         {
-            box.refcount = 0;
+            if (box == null) return;
+            if (box.unuse)
+                return;
+            box.unuse = true;
+            if (unusedVBox == null)
+                unusedVBox = new Queue<VBox>();
+            //box.refcount = 0;
             unusedVBox.Enqueue(box);
         }
         //public static void UnUse(IBox box)
@@ -281,10 +296,14 @@ namespace CLRSharp
     }
     public class VBox
     {
+        public bool unuse = false;
+
+        public static int newcount=0;
         public VBox(NumberOnStack typeStack, NumberType thistype)
         {
             this.typeStack = typeStack;
             this.type = thistype;
+            newcount++;
         }
         public VBox Clone()
         {
@@ -305,7 +324,7 @@ namespace CLRSharp
 
             return b;
         }
-        public int refcount = 0;
+        //public int refcount = 0;
         public NumberOnStack typeStack;
         public NumberType type;
         public Int32 v32;
@@ -604,13 +623,29 @@ namespace CLRSharp
                     {
                         v32 = (int)value;
                     }
+                    else if(value is uint)
+                    {
+                        v32 = (int)(uint)value;
+                    }
                     else if (value is short)
                     {
                         v32 = (short)value;
                     }
+                    else if (value is UInt16)
+                    {
+                        v32 = (UInt16)value;
+                    }
                     else if(value is char)
                     {
                         v32 = (char)value;
+                    }
+                    else if (value is byte)
+                    {
+                        v32 = (byte)value;
+                    }
+                    else if (value is sbyte)
+                    {
+                        v32 = (sbyte)value;
                     }
                     else
                     {
@@ -824,9 +859,9 @@ namespace CLRSharp
             switch (typeStack)
             {
                 case NumberOnStack.Int32:
-                    return v32 > 0;
+                    return v32 != 0;
                 case NumberOnStack.Int64:
-                    return v64 > 0;
+                    return v64 != 0;
                 default:
                     return false;
             }

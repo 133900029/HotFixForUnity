@@ -34,11 +34,23 @@ namespace CLRSharp
         {
             this.environment = env;
             DebugLevel = 0;
+            if (_activeContext != null)
+            {
+                env.logger.Log_Error("在同一线程上多次创建ThreadContext");
+            }
+            _activeContext = this;
+
         }
         public ThreadContext(ICLRSharp_Environment env, int DebugLevel)
         {
             this.environment = env;
             this.DebugLevel = DebugLevel;
+            if (_activeContext != null)
+            {
+                env.logger.Log_Error("在同一线程上多次创建ThreadContext");
+            }
+            _activeContext = this;
+
         }
         public Stack<StackFrame> GetStackFrames()
         {
@@ -88,7 +100,6 @@ namespace CLRSharp
         }
         public object ExecuteFunc(IMethod_Sharp method, object _this, object[] _params)
         {
-            _activeContext = this;
             if (this.DebugLevel >= 9)
             {
                 environment.logger.Log("<Call>::" + method.DeclaringType.FullName + "::" + method.Name.ToString());
@@ -225,109 +236,125 @@ namespace CLRSharp
         Dictionary<int, IField> fieldCache = new Dictionary<int, IField>();
         public IMethod GetMethod(object token)
         {
-            IMethod __method = null;
-            if (methodCache.TryGetValue(token.GetHashCode(), out __method))
+            try
             {
-                return __method;
-            }
-            Mono.Cecil.ModuleDefinition module = null;
-            string methodname = null;
-            string typename = null;
-            MethodParamList genlist = null;
-            MethodParamList list = null;
-            if (token is Mono.Cecil.MethodReference)
-            {
-                Mono.Cecil.MethodReference _ref = (token as Mono.Cecil.MethodReference);
-                module = _ref.Module;
-                methodname = _ref.Name;
-                typename = _ref.DeclaringType.FullName;
-                list = new MethodParamList(environment, _ref);
-                if (_ref.IsGenericInstance)
+                IMethod __method = null;
+                if (methodCache.TryGetValue(token.GetHashCode(), out __method))
                 {
-                    Mono.Cecil.GenericInstanceMethod gmethod = _ref as Mono.Cecil.GenericInstanceMethod;
-                    genlist = new MethodParamList(environment, gmethod);
-
+                    return __method;
                 }
-            }
-            else if (token is Mono.Cecil.MethodDefinition)
-            {
-                Mono.Cecil.MethodDefinition _def = token as Mono.Cecil.MethodDefinition;
-                module = _def.Module;
-                methodname = _def.Name;
-                typename = _def.DeclaringType.FullName;
-                list = new MethodParamList(environment, _def);
-                if (_def.IsGenericInstance)
+                Mono.Cecil.ModuleDefinition module = null;
+                string methodname = null;
+                string typename = null;
+                MethodParamList genlist = null;
+                MethodParamList list = null;
+                if (token is Mono.Cecil.MethodReference)
+                {
+                    Mono.Cecil.MethodReference _ref = (token as Mono.Cecil.MethodReference);
+                    module = _ref.Module;
+                    methodname = _ref.Name;
+                    typename = _ref.DeclaringType.FullName;
+                    list = new MethodParamList(environment, _ref);
+                    if (_ref.IsGenericInstance)
+                    {
+                        Mono.Cecil.GenericInstanceMethod gmethod = _ref as Mono.Cecil.GenericInstanceMethod;
+                        genlist = new MethodParamList(environment, gmethod);
+
+                    }
+                }
+                else if (token is Mono.Cecil.MethodDefinition)
+                {
+                    Mono.Cecil.MethodDefinition _def = token as Mono.Cecil.MethodDefinition;
+                    module = _def.Module;
+                    methodname = _def.Name;
+                    typename = _def.DeclaringType.FullName;
+                    list = new MethodParamList(environment, _def);
+                    if (_def.IsGenericInstance)
+                    {
+                        throw new NotImplementedException();
+                        //Mono.Cecil.GenericInstanceMethod gmethod = _def as Mono.Cecil.GenericInstanceMethod;
+                        //genlist = new MethodParamList(environment, gmethod);
+                    }
+                }
+                else
                 {
                     throw new NotImplementedException();
-                    //Mono.Cecil.GenericInstanceMethod gmethod = _def as Mono.Cecil.GenericInstanceMethod;
-                    //genlist = new MethodParamList(environment, gmethod);
                 }
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-            var typesys = GetType(typename);
-            if (typesys == null)
-                throw new Exception("type can't find:" + typename);
 
+                var typesys = GetType(typename);
+                if (typesys == null)
+                {
+                    typename = typename.Replace("0...", "");
+                    typesys = GetType(typename);
 
-            IMethod _method = null;
-            if (genlist != null)
-            {
-                _method = typesys.GetMethodT(methodname, genlist, list);
+                }
+                if (typesys == null)
+                {
+                    throw new Exception("type can't find:" + typename);
+                }
+
+                IMethod _method = null;
+                if (genlist != null)
+                {
+                    _method = typesys.GetMethodT(methodname, genlist, list);
+                }
+                else
+                {
+                    _method = typesys.GetMethod(methodname, list);
+                }
+                methodCache[token.GetHashCode()] = _method;
+                return _method;
             }
-            else
+            catch (Exception err)
             {
-                _method = typesys.GetMethod(methodname, list);
+
+                throw new Exception("Error GetMethod==<这意味着这个函数无法被L#找到>" + token, err);
             }
-            methodCache[token.GetHashCode()] = _method;
-            return _method;
         }
-        IMethod GetNewForArray(object token)
-        {
-            IMethod __method = null;
-            if (methodCache.TryGetValue(token.GetHashCode(), out __method))
-            {
-                return __method;
-            }
-            Mono.Cecil.ModuleDefinition module = null;
-            string typename = null;
-            if (token is Mono.Cecil.TypeDefinition)
-            {
-                Mono.Cecil.TypeDefinition _def = (token as Mono.Cecil.TypeDefinition);
-                module = _def.Module;
-                typename = _def.FullName;
-            }
-            else if (token is Mono.Cecil.TypeReference)
-            {
-                Mono.Cecil.TypeReference _ref = (token as Mono.Cecil.TypeReference);
-                module = _ref.Module;
-                typename = _ref.FullName;
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+        //IMethod GetNewForArray(object token)
+        //{
+        //    IMethod __method = null;
+        //    if (methodCache.TryGetValue(token.GetHashCode(), out __method))
+        //    {
+        //        return __method;
+        //    }
+        //    Mono.Cecil.ModuleDefinition module = null;
+        //    string typename = null;
+        //    if (token is Mono.Cecil.TypeDefinition)
+        //    {
+        //        Mono.Cecil.TypeDefinition _def = (token as Mono.Cecil.TypeDefinition);
+        //        module = _def.Module;
+        //        typename = _def.FullName;
+        //    }
+        //    else if (token is Mono.Cecil.TypeReference)
+        //    {
+        //        Mono.Cecil.TypeReference _ref = (token as Mono.Cecil.TypeReference);
+        //        module = _ref.Module;
+        //        typename = _ref.FullName;
+        //    }
+        //    else
+        //    {
+        //        throw new NotImplementedException();
+        //    }
 
-            ICLRType _type = null;
-            ICLRType _Itype = GetType(typename);
-            if (_Itype is ICLRType_Sharp)
-            {
-                _type = environment.GetType(typeof(CLRSharp.CLRSharp_Instance[]));
-            }
-            else
-            {
-                typename += "[]";
-                //var _type = context.environment.GetType(typename, type.Module);
-                _type = GetType(typename);
+        //    ICLRType _type = null;
+        //    ICLRType _Itype = GetType(typename);
+        //    if (_Itype is ICLRType_Sharp)
+        //    {
+        //        _type = environment.GetType(typeof(CLRSharp.CLRSharp_Instance[]));
+        //    }
+        //    else
+        //    {
+        //        typename += "[]";
+        //        //var _type = context.environment.GetType(typename, type.Module);
+        //        _type = GetType(typename);
 
-            }
-            MethodParamList tlist = MethodParamList.const_OneParam_Int(environment);
-            var m = _type.GetMethod(".ctor", tlist);
-            methodCache[token.GetHashCode()] = m;
-            return m;
-        }
+        //    }
+        //    MethodParamList tlist = MethodParamList.const_OneParam_Int(environment);
+        //    var m = _type.GetMethod(".ctor", tlist);
+        //    methodCache[token.GetHashCode()] = m;
+        //    return m;
+        //}
         public IField GetField(object token)
         {
             IField __field = null;
@@ -573,7 +600,7 @@ namespace CLRSharp
                         stack.Bgt_Un(_code.tokenAddr_Index);
                         break;
                     case CodeEx.Bgt_Un_S:
-                        stack.Bge_Un(_code.tokenAddr_Index);
+                        stack.Bgt_Un(_code.tokenAddr_Index);
                         break;
                     case CodeEx.Ble:
                         stack.Ble(_code.tokenAddr_Index);
@@ -597,7 +624,7 @@ namespace CLRSharp
                         stack.Blt_Un(_code.tokenAddr_Index);
                         break;
                     case CodeEx.Blt_Un_S:
-                        stack.Ble_Un(_code.tokenAddr_Index);
+                        stack.Blt_Un(_code.tokenAddr_Index);
                         break;
                     //逻辑计算
                     case CodeEx.Ceq:
@@ -902,7 +929,7 @@ namespace CLRSharp
                         break;
                     //数组
                     case CodeEx.Newarr:
-                        stack.NewArr(this, GetNewForArray(_code.tokenUnknown));
+                        stack.NewArr(this, _code.tokenType.TypeForSystem);
                         break;
                     case CodeEx.Ldlen:
                         stack.LdLen();
@@ -1057,37 +1084,37 @@ namespace CLRSharp
                         stack.Switch(this, _code.tokenAddr_Switch);
                         break;
                     case CodeEx.Ldind_I1:
-                        stack.Ldind_I1(this, _code.tokenUnknown);
+                        stack.Ldind_I1();
                         break;
                     case CodeEx.Ldind_U1:
-                        stack.Ldind_U1(this, _code.tokenUnknown);
+                        stack.Ldind_U1();
                         break;
                     case CodeEx.Ldind_I2:
-                        stack.Ldind_I2(this, _code.tokenUnknown);
+                        stack.Ldind_I2();
                         break;
                     case CodeEx.Ldind_U2:
-                        stack.Ldind_U2(this, _code.tokenUnknown);
+                        stack.Ldind_U2();
                         break;
                     case CodeEx.Ldind_I4:
-                        stack.Ldind_I4(this, _code.tokenUnknown);
+                        stack.Ldind_I4();
                         break;
                     case CodeEx.Ldind_U4:
-                        stack.Ldind_U4(this, _code.tokenUnknown);
+                        stack.Ldind_U4();
                         break;
                     case CodeEx.Ldind_I8:
-                        stack.Ldind_I8(this, _code.tokenUnknown);
+                        stack.Ldind_I8();
                         break;
                     case CodeEx.Ldind_I:
-                        stack.Ldind_I(this, _code.tokenUnknown);
+                        stack.Ldind_I();
                         break;
                     case CodeEx.Ldind_R4:
-                        stack.Ldind_R4(this, _code.tokenUnknown);
+                        stack.Ldind_R4();
                         break;
                     case CodeEx.Ldind_R8:
-                        stack.Ldind_R8(this, _code.tokenUnknown);
+                        stack.Ldind_R8();
                         break;
                     case CodeEx.Ldind_Ref:
-                        stack.Ldind_Ref(this, _code.tokenUnknown);
+                        stack.Ldind_Ref();
                         break;
                     case CodeEx.Stind_Ref:
                         stack.Stind_Ref(this, _code.tokenUnknown);

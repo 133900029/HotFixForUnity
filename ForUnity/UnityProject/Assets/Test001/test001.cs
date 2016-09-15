@@ -16,8 +16,10 @@ public class test001 : MonoBehaviour
 
         SetName("after");
         SetTime();
-        return;
 
+
+        SetNameStatic("after");
+        SetTimeStatic();
     }
 
     public void SetName(string name)
@@ -42,5 +44,23 @@ public class test001 : MonoBehaviour
     }
 
 
+    public static void SetNameStatic(string name)
+    {
+        if (FixUtil.Instance.NeedFix("test001.SetNameStatic.static"))
+        {
+            FixUtil.Instance.Fix("test001.SetNameStatic.static", name);
+            return;
+        }
+        Debug.Log("SetNameStatic");
+    }
+    public static void SetTimeStatic()
+    {
+        if (FixUtil.Instance.NeedFix("test001.SetTimeStatic.static"))
+        {
+            FixUtil.Instance.Fix("test001.SetTimeStatic.static");
+            return;
+        }
+        Debug.Log("SetTimeStatic");
+    }
 
 }

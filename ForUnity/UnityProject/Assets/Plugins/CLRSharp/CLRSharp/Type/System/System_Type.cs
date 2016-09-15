@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CLRSharp
 {
-    class Type_Common_System : ICLRType_System
+    public class Type_Common_System : ICLRType_System
     {
         public System.Type TypeForSystem
         {
@@ -49,7 +49,7 @@ namespace CLRSharp
             //    return aname.Substring(0, i);
             //}
         }
-        public IMethod GetMethod(string funcname, MethodParamList types)
+        public virtual IMethod GetMethod(string funcname, MethodParamList types)
         {
             if (funcname == ".ctor")
             {
@@ -59,7 +59,7 @@ namespace CLRSharp
             var method = TypeForSystem.GetMethod(funcname, types.ToArraySystem());
             return new Method_Common_System(this, method);
         }
-        public IMethod[] GetMethods(string funcname)
+        public virtual IMethod[] GetMethods(string funcname)
         {
             List<IMethod> methods = new List<IMethod>();
             if (funcname == ".ctor")
@@ -85,7 +85,7 @@ namespace CLRSharp
 
             return methods.ToArray();
         }
-        public IMethod[] GetAllMethods()
+        public virtual IMethod[] GetAllMethods()
         {
             List<IMethod> methods = new List<IMethod>();
             {
@@ -105,7 +105,7 @@ namespace CLRSharp
         {
             return Activator.CreateInstance(TypeForSystem);
         }
-        public IMethod GetMethodT(string funcname, MethodParamList ttypes, MethodParamList types)
+        public virtual IMethod GetMethodT(string funcname, MethodParamList ttypes, MethodParamList types)
         {
             //这个实现还不完全
             //有个别重构下，判定比这个要复杂
@@ -130,7 +130,7 @@ namespace CLRSharp
 
             return new Method_Common_System(this, _method.MakeGenericMethod(ttypes.ToArraySystem()));
         }
-        public IField GetField(string name)
+        public virtual IField GetField(string name)
         {
             return new Field_Common_System(env, TypeForSystem.GetField(name));
         }
@@ -189,6 +189,41 @@ namespace CLRSharp
         }
         public void Set(object _this, object value)
         {
+            if(value!=null&&(value.GetType()==typeof(int)|| value.GetType() == typeof(Int64)))
+            {
+                if (info.FieldType == typeof(bool))
+                    value = (bool)((int)value != 0);
+                else if(info.FieldType==typeof(char))
+                {
+                    value = (char)((int)value);
+                }
+                else if (info.FieldType == typeof(byte))
+                {
+                    value = (byte)((int)value);
+                }
+                else if (info.FieldType == typeof(sbyte))
+                {
+                    value = (sbyte)((int)value);
+                }
+                else if (info.FieldType == typeof(UInt16))
+                {
+                    value = (UInt16)((int)value);
+                }
+                else if (info.FieldType == typeof(Int16))
+                {
+                    value = (Int16)((int)value);
+                }
+                else if (info.FieldType == typeof(UInt32))
+                {
+                    value = (UInt32)((int)value);
+                }
+                else if (info.FieldType == typeof(UInt64))
+                {
+                    value = (UInt64)((Int64)value);
+                }
+
+            }
+         
             info.SetValue(_this, value);
         }
 
@@ -254,6 +289,43 @@ namespace CLRSharp
         }
         public object Invoke(ThreadContext context, object _this, object[] _params, bool bVisual)
         {//对程序类型，其实我们做不到区分虚实调用。。。没办法
+            if (this.Name == "Concat" && this.DeclaringType.TypeForSystem == typeof(string))
+            {//这里有一个IL2CPP的问题
+
+
+                if (_params.Length == 1)
+                {
+                    if (_params[0] == null)
+                        return "null";
+                    if (_params[0] is string[])
+                    {
+                        return string.Concat(_params[0] as string[]);
+                    }
+                    else if (_params[0] is object[])
+                    {
+                        return string.Concat(_params[0] as object[]);
+                    }
+                    else
+                    {
+                        return _params[0].ToString();
+                    }
+                }
+                else
+                {
+                    string outstr = "null";
+                    if (_params[0] != null) outstr = _params[0].ToString();
+
+                    for (int i = 1; i < _params.Length; i++)
+                    {
+                        if (_params[i] != null)
+                            outstr += _params[i];
+                        else
+                            outstr += "null";
+                    }
+                    return outstr;
+                }
+
+            }
             return Invoke(context, _this, _params);
         }
         public object Invoke(ThreadContext context, object _this, object[] _params)
@@ -314,7 +386,10 @@ namespace CLRSharp
                     for (int i = 0; i < _params.Length; i++)
                     {
                         if (_params[i] == null)
+                        {
                             _outp[i] = null;
+                            continue;
+                        }
                         Type tsrc = _params[i].GetType();
                         Type ttarget = _paramsdef[i].ParameterType;
                         if (tsrc == ttarget)
@@ -324,6 +399,11 @@ namespace CLRSharp
                         else if (tsrc.IsSubclassOf(ttarget))
                         {
                             _outp[i] = _params[i];
+                        }
+                        else if (_paramsdef[i].ParameterType.IsEnum)//特殊处理枚举
+                        {
+                            var ms = _paramsdef[i].ParameterType.GetMethods();
+                            _outp[i] = Enum.ToObject(_paramsdef[i].ParameterType, _params[i]);
                         }
                         else
                         {
@@ -367,7 +447,26 @@ namespace CLRSharp
                         }
                         else
                         {
-                            _outp[i] = _params[i];
+                            if(_paramsdef[i].ParameterType==typeof(UInt64)&&_params[i] is Int64)
+                            {
+                                _outp[i] = (UInt64)(Int64)_params[i];
+                            }
+                            else if (_paramsdef[i].ParameterType == typeof(Int64) && _params[i] is UInt64)
+                            {
+                                _outp[i] = (Int64)(UInt64)_params[i];
+                            }
+                            else if (_paramsdef[i].ParameterType == typeof(UInt32) && _params[i] is Int32)
+                            {
+                                _outp[i] = (UInt32)(Int32)_params[i];
+                            }
+                            else if (_paramsdef[i].ParameterType == typeof(Int32) && _params[i] is UInt32)
+                            {
+                                _outp[i] = (Int32)(UInt32)_params[i];
+                            }
+                            else
+                            {
+                                _outp[i] = _params[i];
+                            }
                         }
                     }
                 }

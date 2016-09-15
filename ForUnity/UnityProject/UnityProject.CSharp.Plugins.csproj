@@ -110,9 +110,7 @@
     <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Cecil.PE\DataDirectory.cs" />
     <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Cecil.PE\Image.cs" />
     <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Cecil.PE\ImageReader.cs" />
-    <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Cecil.PE\ImageWriter.cs" />
     <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Cecil.PE\Section.cs" />
-    <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Cecil.PE\TextMap.cs" />
     <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Cecil\ArrayType.cs" />
     <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Cecil\AssemblyDefinition.cs" />
     <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Cecil\AssemblyFlags.cs" />
@@ -196,7 +194,6 @@
     <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Cecil\VariantType.cs" />
     <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Collections.Generic\Collection.cs" />
     <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Collections.Generic\ReadOnlyCollection.cs" />
-    <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Security.Cryptography\CryptoConvert.cs" />
     <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono.Security.Cryptography\CryptoService.cs" />
     <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono\Actions.cs" />
     <Compile Include="Assets\Plugins\Mono.Cecil.20\MonoCecil\Mono\Empty.cs" />

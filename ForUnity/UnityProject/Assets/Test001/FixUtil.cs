@@ -57,35 +57,48 @@ public class FixUtil
         string className = nameArray[0];
         string methodName = nameArray[1];
 
+
         CLRSharp.ICLRType wantType = env.GetType("HotFix." + className + "Hot");
-        var list = CLRSharp.MethodParamList.Make(GetTypes(param));
         CLRSharp.IMethod method;
-        if (param.Length == 1)
-            method = wantType.GetMethod(methodName, CLRSharp.MethodParamList.constEmpty());
+        MethodParamList list = null;
+        if (nameArray.Length == 3)      //静态方法
+        {
+            list = CLRSharp.MethodParamList.Make(GetTypes(true, param));
+        }
         else
-            method = wantType.GetMethod(methodName, list);
+        {
+            list = CLRSharp.MethodParamList.Make(GetTypes(false, param));
+        }
+
+        method = wantType.GetMethod(methodName, list);
         method.Invoke(context, null, GetParams(param));
     }
-    private ICLRType[] GetTypes(params object[] param)
+    private ICLRType[] GetTypes(bool isStatic, params object[] param)//第一个参数不要，且根据是否静态加入object
     {
-        ICLRType[] paramArray = new ICLRType[param.Length - 1];
-        int j = 0;
+        if (param.Length == 1)
+            return null;
+        List<ICLRType> list = new List<ICLRType>();
         for (int i = 1; i < param.Length; i++)
         {
-            paramArray[j++] = env.GetType(param[i].GetType());
+            if (!isStatic && i == 1)
+            {
+                list.Add(env.GetType(typeof(object)));
+                continue;
+            }
+            list.Add(env.GetType(param[i].GetType()));
         }
-        paramArray[0] = env.GetType(typeof(object));
-        return paramArray;
+        return list.ToArray();
     }
-    private object[] GetParams(params object[] param)
+    private object[] GetParams(params object[] param)//第一个参数不要
     {
-        object[] paramArray = new object[param.Length - 1];
-        int j = 0;
+        if (param.Length == 1)
+            return null;
+        List<object> list = new List<object>();
         for (int i = 1; i < param.Length; i++)
         {
-            paramArray[j++] = (object)param[i];
+            list.Add((object)param[i]);
         }
-        return paramArray;
+        return list.ToArray();
     }
 
     private void SetConfigData(string txt)

@@ -35,9 +35,9 @@ namespace AddMethod
 		public static void Main(string[] args)
 		{
 
-if (FixUtil.Instance.NeedFix("Program.Main"))
+if (FixUtil.Instance.NeedFix("Program.Main.static"))
 {
-    FixUtil.Instance.Fix("Program.Main", this, args);
+    FixUtil.Instance.Fix("Program.Main.static", args);
     return;
 }
 
@@ -148,18 +148,15 @@ if (FixUtil.Instance.NeedFix("Program.Main"))
                                     AstNodeCollection<ParameterDeclaration> paramlist = method.Parameters;
 
 
+                                    string isStatic = ".static";
+                                    string str="";
+                                    if ((method.Modifiers & Modifiers.Static) != Modifiers.Static)
+                                    {
+                                        isStatic = "";
+                                        str = ", this";
 
-
-                                    // 
-                                    //                                     if (FixUtil.Instance.NeedFix("test001.SetName"))
-                                    //                                     {
-                                    //                                         FixUtil.Instance.Fix("test001.SetName", this, name);
-                                    //                                         return;
-                                    //                                     }
-
-                                    //list.Clear();
-                                    //list.Add(",this");
-                                    string str = ", this";
+                                    }
+                                    
                                     foreach (ParameterDeclaration param in paramlist)
                                     {
                                         Console.WriteLine("param    " + param.Name);
@@ -167,18 +164,23 @@ if (FixUtil.Instance.NeedFix("Program.Main"))
                                     }
 
 
-                                    // 。。。。这里找到了方法体！ 开始进行插入！
-                                    // int offset = script.GetCurrentOffset(expr.RParToken.StartLocation);
+ 
                                     int offset = script.GetCurrentOffset(method.Body.LBraceToken.StartLocation);
-                                    script.InsertText(offset + 1,                "\n" +
+                                                   script.InsertText(offset + 1, "\n" +
                                                                                  "\n" +
-                                                                   string.Format("if (FixUtil.Instance.NeedFix(\"{0}.{1}\"))\n", className, method.Name) +
+                                                                   string.Format("if (FixUtil.Instance.NeedFix(\"{0}.{1}{2}\"))\n", className, method.Name, isStatic) +
                                                                                  "{\n" +
-                                                                   string.Format("    FixUtil.Instance.Fix(\"{0}.{1}\"{2});\n", className, method.Name, str) +
+                                                                   string.Format("    FixUtil.Instance.Fix(\"{0}.{1}{2}\"{3});\n", className, method.Name, isStatic, str) +
                                                                                  "    return;\n" +
                                                                                  "}\n");
 
-
+//                script.InsertText(offset + 1, "\n" +
+//                                              "\n" +
+//                                string.Format("if (FixUtil.Instance.NeedFix("+className+"."+method.Name+"))\n" +
+//                                              "{\n" +
+//                                string.Format("    FixUtil.Instance.Fix(\"{0}.{1}\"{2});\n", className, method.Name, str) +
+//                                              "    return;\n" +
+//                                              "}\n");
 
 
                                 }
