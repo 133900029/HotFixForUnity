@@ -34,9 +34,12 @@ namespace HotFix
         {
             Debug.Log("SetTimeStatic hotfix now");
         }
-         
 
 
+        public static void TestPerformance(object instance)
+        {
+            GameObject go = new GameObject();
+        }
 
     }
 }

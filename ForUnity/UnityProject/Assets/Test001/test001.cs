@@ -20,6 +20,34 @@ public class test001 : MonoBehaviour
 
         SetNameStatic("after");
         SetTimeStatic();
+
+
+
+        //test for unity window pc at 2016.9.15 22:06//use the new L# version
+        //time   10        100         1000
+        //native 0.0002    0.0007      0.006
+        //L#     0.026     0.26        2.69
+        //       130       371         448
+
+        float timeFloat = Time.realtimeSinceStartup;
+
+
+
+        for (int i = 0; i < 1000; i++)
+        {
+            TestPerformance();
+        }
+        Debug.Log(Time.realtimeSinceStartup - timeFloat);
+
+    }
+    public void TestPerformance()
+    {
+        if (FixUtil.Instance.NeedFix("test001.TestPerformance"))
+        {
+            FixUtil.Instance.Fix("test001.TestPerformance", this);
+            return;
+        }
+        GameObject go = new GameObject();
     }
 
     public void SetName(string name)

@@ -2,3 +2,4 @@ test001.SetNameStatic.static
 test001.SetName
 test001.SetTimeStatic.static
 test001.SetTime
+test001.TestPerformance
