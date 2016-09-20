@@ -36,7 +36,7 @@ public class FixUtil
         TextAsset dll = Resources.Load("HotFix.dll") as TextAsset;
         TextAsset pdb = Resources.Load("HotFix.pdb") as TextAsset;
         System.IO.MemoryStream msDll = new System.IO.MemoryStream(dll.bytes);
-        System.IO.MemoryStream msPdb = new System.IO.MemoryStream(pdb.bytes);
+        System.IO.MemoryStream msPdb = new System.IO.MemoryStream(pdb.bytes);//pdb可以不要。可以从streamingassets读入
         env.LoadModule(msDll, msPdb, new Mono.Cecil.Pdb.PdbReaderProvider());
         context = new CLRSharp.ThreadContext(env);
 
@@ -48,48 +48,34 @@ public class FixUtil
         Debug.Log("str  " + str + "   bool  " + isFix);
         return isFix;
     }
-    public void Fix(params object[] param)
+    public void Fix(string str, params object[] param)
     {
-        if (param == null || param.Length == 0)
-            return;
-        string id = param[0] as string;
-        string[] nameArray = id.Split('.');
+
+        string id = str;
+        string[] nameArray = id.Split(',');
         string className = nameArray[0];
         string methodName = nameArray[1];
 
 
         CLRSharp.ICLRType wantType = env.GetType("HotFix." + className + "Hot");
+        var list = CLRSharp.MethodParamList.Make(GetTypes(str));
         CLRSharp.IMethod method;
-        MethodParamList list = null;
-        if (nameArray.Length == 3)      //静态方法
-        {
-            list = CLRSharp.MethodParamList.Make(GetTypes(true, param));
-        }
-        else
-        {
-            list = CLRSharp.MethodParamList.Make(GetTypes(false, param));
-        }
-
         method = wantType.GetMethod(methodName, list);
-        method.Invoke(context, null, GetParams(param));
+        method.Invoke(context, null, param);
     }
-    private ICLRType[] GetTypes(bool isStatic, params object[] param)//第一个参数不要，且根据是否静态加入object
+    private ICLRType[] GetTypes(string param)
     {
-        if (param.Length == 1)
-            return null;
         List<ICLRType> list = new List<ICLRType>();
-        for (int i = 1; i < param.Length; i++)
+
+        string[] str = param.Split(',');
+        for (int i = 2; i < str.Length; i++)
         {
-            if (!isStatic && i == 1)
-            {
-                list.Add(env.GetType(typeof(object)));
-                continue;
-            }
-            list.Add(env.GetType(param[i].GetType()));
+            list.Add(env.GetType(str[i]));
         }
         return list.ToArray();
     }
-    private object[] GetParams(params object[] param)//第一个参数不要
+    /*
+    private object[] GetParams(params object[] param)
     {
         if (param.Length == 1)
             return null;
@@ -100,7 +86,7 @@ public class FixUtil
         }
         return list.ToArray();
     }
-
+    */
     private void SetConfigData(string txt)
     {
         string content = txt.Trim().Replace("\r\n", "\n");
