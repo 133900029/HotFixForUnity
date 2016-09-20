@@ -65,7 +65,8 @@ namespace AddMethod
 
 if (FixUtil.Instance.NeedFix("CSharpFile.CreateResolver"))
 {
-    FixUtil.Instance.Fix("CSharpFile.CreateResolver", this);
+    string strParameter = string.Format("CSharpFile,CreateResolver,{0}", typeof(object));
+    FixUtil.Instance.Fix(strParameter, this);
     return;
 }
 

@@ -53,5 +53,24 @@ namespace AddMethod
 		{
 			list.IndexOf(".com");
 		}
+
+
+
+        public void SetName(string name)
+        {
+
+        }
+        public void SetTime()
+        {
+
+        }
+        public static void SetNameStatic(string name)
+        {
+
+        }
+        public static void SetTimeStatic()
+        {
+
+        }
 	}
 }

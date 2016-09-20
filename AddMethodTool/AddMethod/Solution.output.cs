@@ -88,7 +88,8 @@ namespace AddMethod
 
 if (FixUtil.Instance.NeedFix("Solution.LoadAssembly"))
 {
-    FixUtil.Instance.Fix("Solution.LoadAssembly", this, assemblyFileName);
+    string strParameter = string.Format("Solution,LoadAssembly,{0},{1}", typeof(object), typeof(string));
+    FixUtil.Instance.Fix(strParameter, this, assemblyFileName);
     return;
 }
 

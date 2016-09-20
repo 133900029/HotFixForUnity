@@ -46,7 +46,8 @@ namespace AddMethod
 
 if (FixUtil.Instance.NeedFix("SimplyLocalVariableDeclarationsUsingVar.VisitVariableDeclarationStatement"))
 {
-    FixUtil.Instance.Fix("SimplyLocalVariableDeclarationsUsingVar.VisitVariableDeclarationStatement", this, varDecl);
+    string strParameter = string.Format("SimplyLocalVariableDeclarationsUsingVar,VisitVariableDeclarationStatement,{0},{1}", typeof(object), typeof(VariableDeclarationStatement));
+    FixUtil.Instance.Fix(strParameter, this, varDecl);
     return;
 }
 
@@ -62,7 +63,8 @@ if (FixUtil.Instance.NeedFix("SimplyLocalVariableDeclarationsUsingVar.VisitVaria
 
 if (FixUtil.Instance.NeedFix("SimplyLocalVariableDeclarationsUsingVar.CanBeSimplified"))
 {
-    FixUtil.Instance.Fix("SimplyLocalVariableDeclarationsUsingVar.CanBeSimplified", this, varDecl);
+    string strParameter = string.Format("SimplyLocalVariableDeclarationsUsingVar,CanBeSimplified,{0},{1}", typeof(object), typeof(VariableDeclarationStatement));
+    FixUtil.Instance.Fix(strParameter, this, varDecl);
     return;
 }
 

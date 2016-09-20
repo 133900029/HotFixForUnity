@@ -32,7 +32,8 @@ namespace AddMethod
 
 if (FixUtil.Instance.NeedFix("Test.StringIndexOfStringCalls"))
 {
-    FixUtil.Instance.Fix("Test.StringIndexOfStringCalls", this, list);
+    string strParameter = string.Format("Test,StringIndexOfStringCalls,{0},{1}", typeof(object), typeof(List<string>));
+    FixUtil.Instance.Fix(strParameter, this, list);
     return;
 }
 
@@ -47,7 +48,8 @@ if (FixUtil.Instance.NeedFix("Test.StringIndexOfStringCalls"))
 
 if (FixUtil.Instance.NeedFix("Test.StringIndexOfStringCallsWithComparison"))
 {
-    FixUtil.Instance.Fix("Test.StringIndexOfStringCallsWithComparison", this, list);
+    string strParameter = string.Format("Test,StringIndexOfStringCallsWithComparison,{0},{1}", typeof(object), typeof(List<string>));
+    FixUtil.Instance.Fix(strParameter, this, list);
     return;
 }
 
@@ -62,7 +64,8 @@ if (FixUtil.Instance.NeedFix("Test.StringIndexOfStringCallsWithComparison"))
 
 if (FixUtil.Instance.NeedFix("Test.StringIndexOfCharCalls"))
 {
-    FixUtil.Instance.Fix("Test.StringIndexOfCharCalls", this, list);
+    string strParameter = string.Format("Test,StringIndexOfCharCalls,{0},{1}", typeof(object), typeof(List<string>));
+    FixUtil.Instance.Fix(strParameter, this, list);
     return;
 }
 
@@ -75,11 +78,63 @@ if (FixUtil.Instance.NeedFix("Test.StringIndexOfCharCalls"))
 
 if (FixUtil.Instance.NeedFix("Test.OtherIndexOfCalls"))
 {
-    FixUtil.Instance.Fix("Test.OtherIndexOfCalls", this, list);
+    string strParameter = string.Format("Test,OtherIndexOfCalls,{0},{1}", typeof(object), typeof(List<string>));
+    FixUtil.Instance.Fix(strParameter, this, list);
     return;
 }
 
 			list.IndexOf(".com");
 		}
+
+
+
+        public void SetName(string name)
+        {
+
+if (FixUtil.Instance.NeedFix("Test.SetName"))
+{
+    string strParameter = string.Format("Test,SetName,{0},{1}", typeof(object), typeof(string));
+    FixUtil.Instance.Fix(strParameter, this, name);
+    return;
+}
+
+
+        }
+        public void SetTime()
+        {
+
+if (FixUtil.Instance.NeedFix("Test.SetTime"))
+{
+    string strParameter = string.Format("Test,SetTime,{0}", typeof(object));
+    FixUtil.Instance.Fix(strParameter, this);
+    return;
+}
+
+
+        }
+        public static void SetNameStatic(string name)
+        {
+
+if (FixUtil.Instance.NeedFix("Test.SetNameStatic"))
+{
+    string strParameter = string.Format("Test,SetNameStatic,{0},{1}", typeof(object), typeof(string));
+    FixUtil.Instance.Fix(strParameter, null, name);
+    return;
+}
+
+
+        }
+        public static void SetTimeStatic()
+        {
+
+if (FixUtil.Instance.NeedFix("Test.SetTimeStatic"))
+{
+    string strParameter = string.Format("Test,SetTimeStatic,{0}", typeof(object));
+    FixUtil.Instance.Fix(strParameter, null);
+    return;
+}
+
+
+        }
 	}
 }

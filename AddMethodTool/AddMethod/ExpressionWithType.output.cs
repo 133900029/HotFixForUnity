@@ -64,7 +64,8 @@ namespace AddMethod
 
 if (FixUtil.Instance.NeedFix("ExpressionWithType.DoMatch"))
 {
-    FixUtil.Instance.Fix("ExpressionWithType.DoMatch", this, other, match);
+    string strParameter = string.Format("ExpressionWithType,DoMatch,{0},{1},{2}", typeof(object), typeof(INode), typeof(Match));
+    FixUtil.Instance.Fix(strParameter, this, other, match);
     return;
 }
 

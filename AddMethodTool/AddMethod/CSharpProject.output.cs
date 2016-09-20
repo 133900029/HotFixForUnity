@@ -132,9 +132,10 @@ namespace AddMethod
 		static bool? GetBoolProperty(Microsoft.Build.Evaluation.Project p, string propertyName)
 		{
 
-if (FixUtil.Instance.NeedFix("CSharpProject.GetBoolProperty.static"))
+if (FixUtil.Instance.NeedFix("CSharpProject.GetBoolProperty"))
 {
-    FixUtil.Instance.Fix("CSharpProject.GetBoolProperty.static", p, propertyName);
+    string strParameter = string.Format("CSharpProject,GetBoolProperty,{0},{1},{2}", typeof(object), typeof(Microsoft.Build.Evaluation.Project), typeof(string));
+    FixUtil.Instance.Fix(strParameter, null, p, propertyName);
     return;
 }
 
@@ -151,7 +152,8 @@ if (FixUtil.Instance.NeedFix("CSharpProject.GetBoolProperty.static"))
 
 if (FixUtil.Instance.NeedFix("CSharpProject.ToString"))
 {
-    FixUtil.Instance.Fix("CSharpProject.ToString", this);
+    string strParameter = string.Format("CSharpProject,ToString,{0}", typeof(object));
+    FixUtil.Instance.Fix(strParameter, this);
     return;
 }
 

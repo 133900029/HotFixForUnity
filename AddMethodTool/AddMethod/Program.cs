@@ -141,31 +141,35 @@ namespace AddMethod
                                     AstNodeCollection<ParameterDeclaration> paramlist = method.Parameters;
 
 
-                                    string isStatic = ".static";
-                                    string str="";
+                                    string strParaType = string.Format("{0},{1}", className, method.Name);
+                                    string numberType=",{0}";
+                                    string numberPara = ", typeof(object)";//兼容性思路，无论是静态还是非静态都传入object 
+                                    string strPara = ", null";
                                     if ((method.Modifiers & Modifiers.Static) != Modifiers.Static)
                                     {
-                                        isStatic = "";
-                                        str = ", this";
-
+                                        strPara = ", this";
                                     }
-                                    
+                                    int number=1;
                                     foreach (ParameterDeclaration param in paramlist)
                                     {
                                         Console.WriteLine("param    " + param.Name);
-                                        str += string.Format(", {0}", param.Name);
+                                        strPara += string.Format(", {0}", param.Name);
+                                        numberType += string.Format(",{0}{1}{2}", "{", number, "}");
+                                        numberPara += string.Format(", typeof({0})", param.Type);
+                                        number++;
                                     }
 
 
  
                                     int offset = script.GetCurrentOffset(method.Body.LBraceToken.StartLocation);
-                                                   script.InsertText(offset + 1, "\n" +
-                                                                                 "\n" +
-                                                                   string.Format("if (FixUtil.Instance.NeedFix(\"{0}.{1}{2}\"))\n", className, method.Name, isStatic) +
-                                                                                 "{\n" +
-                                                                   string.Format("    FixUtil.Instance.Fix(\"{0}.{1}{2}\"{3});\n", className, method.Name, isStatic, str) +
-                                                                                 "    return;\n" +
-                                                                                 "}\n");
+                                    script.InsertText(offset + 1, "\n" +
+                                                                  "\n" +
+                                                    string.Format("if (FixUtil.Instance.NeedFix(\"{0}.{1}\"))\n", className, method.Name) +
+                                                                  "{\n" +
+                                                    string.Format("    string strParameter = string.Format(\"{0}{1}\"{2});\n", strParaType, numberType, numberPara) +
+                                                    string.Format("    FixUtil.Instance.Fix(strParameter{0});\n", strPara) +
+                                                                  "    return;\n" +
+                                                                  "}\n");
 
 //                script.InsertText(offset + 1, "\n" +
 //                                              "\n" +
