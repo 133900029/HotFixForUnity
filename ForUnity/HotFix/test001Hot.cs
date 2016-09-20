@@ -26,11 +26,11 @@ namespace HotFix
 
 
 
-        public static void SetNameStatic(string name)
+        public static void SetNameStatic(object instance,string name)
         {
             Debug.Log("SetNameStatic hotfix now");
         }
-        public static void SetTimeStatic()
+        public static void SetTimeStatic(object instance)
         {
             Debug.Log("SetTimeStatic hotfix now");
         }

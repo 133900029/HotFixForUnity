@@ -29,11 +29,13 @@ public class test001 : MonoBehaviour
         //L#     0.026     0.26        2.69
         //       130       371         448
 
+
+       
         float timeFloat = Time.realtimeSinceStartup;
 
 
 
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 10; i++)
         {
             TestPerformance();
         }
@@ -44,7 +46,8 @@ public class test001 : MonoBehaviour
     {
         if (FixUtil.Instance.NeedFix("test001.TestPerformance"))
         {
-            FixUtil.Instance.Fix("test001.TestPerformance", this);
+            string str = string.Format("test001,TestPerformance,{0}", typeof(object));
+            FixUtil.Instance.Fix(str, this);
             return;
         }
         GameObject go = new GameObject();
@@ -54,7 +57,8 @@ public class test001 : MonoBehaviour
     {
         if (FixUtil.Instance.NeedFix("test001.SetName"))
         {
-            FixUtil.Instance.Fix("test001.SetName", this, name);
+            string str = string.Format("test001,SetName,{0},{1}", typeof(object), typeof(string));
+            FixUtil.Instance.Fix(str, this, name);
             return;
         }
         go.name = "go1";
@@ -65,7 +69,8 @@ public class test001 : MonoBehaviour
     {
         if (FixUtil.Instance.NeedFix("test001.SetTime"))
         {
-            FixUtil.Instance.Fix("test001.SetTime", this);
+            string str = string.Format("test001,SetTime,{0}", typeof(object));
+            FixUtil.Instance.Fix(str, this);
             return;
         }
         time.name = "time1";
@@ -74,18 +79,20 @@ public class test001 : MonoBehaviour
 
     public static void SetNameStatic(string name)
     {
-        if (FixUtil.Instance.NeedFix("test001.SetNameStatic.static"))
+        if (FixUtil.Instance.NeedFix("test001.SetNameStatic"))
         {
-            FixUtil.Instance.Fix("test001.SetNameStatic.static", name);
+            string str = string.Format("test001,SetNameStatic,{0},{1}", typeof(object), typeof(string));
+            FixUtil.Instance.Fix(str, null, name);
             return;
         }
         Debug.Log("SetNameStatic");
     }
     public static void SetTimeStatic()
     {
-        if (FixUtil.Instance.NeedFix("test001.SetTimeStatic.static"))
+        if (FixUtil.Instance.NeedFix("test001.SetTimeStatic"))
         {
-            FixUtil.Instance.Fix("test001.SetTimeStatic.static");
+            string str = string.Format("test001,SetTimeStatic,{0}", typeof(object));
+            FixUtil.Instance.Fix(str, null);
             return;
         }
         Debug.Log("SetTimeStatic");

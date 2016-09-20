@@ -1,5 +1,5 @@
-test001.SetNameStatic.static
+test001.SetNameStatic
 test001.SetName
-test001.SetTimeStatic.static
+test001.SetTimeStatic
 test001.SetTime
 test001.TestPerformance
