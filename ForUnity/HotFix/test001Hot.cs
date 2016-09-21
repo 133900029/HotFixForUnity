@@ -38,7 +38,12 @@ namespace HotFix
 
         public static void TestPerformance(object instance)
         {
-            GameObject go = new GameObject();
+            float timeFloat = Time.realtimeSinceStartup;
+            for (int i = 0; i < 1000; i++)
+            {
+                GameObject go = new GameObject();
+            }
+            Debug.Log(Time.realtimeSinceStartup - timeFloat);
         }
 
     }

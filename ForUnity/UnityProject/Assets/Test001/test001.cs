@@ -24,10 +24,36 @@ public class test001 : MonoBehaviour
 
 
         //test for unity window pc at 2016.9.15 22:06//use the new L# version
-        //time   10        100         1000
-        //native 0.0002    0.0007      0.006
-        //L#     0.026     0.26        2.69
-        //       130       371         448
+        //time        10        100         1000
+        //native      0.0002    0.0007      0.006
+        //L#          0.026     0.26        2.69
+        //all in dll  0.004     0.005       0.02
+      
+
+        //虽然all in dll的速度比L#快
+        //但是使用all in dll会使所有脚本都变慢
+        //而使用L# 只会让热更的脚本变慢
+
+
+
+        //use all in dll
+
+        if (FixUtil.Instance.NeedFix("test001.TestPerformance"))
+        {
+            string str = string.Format("test001,TestPerformance,{0}", typeof(object));
+            FixUtil.Instance.Fix(str, this);
+            return;
+        }
+        return;
+
+
+
+
+
+
+
+
+
 
 
        
@@ -40,6 +66,15 @@ public class test001 : MonoBehaviour
             TestPerformance();
         }
         Debug.Log(Time.realtimeSinceStartup - timeFloat);
+
+
+
+
+
+
+
+
+
 
     }
     public void TestPerformance()
