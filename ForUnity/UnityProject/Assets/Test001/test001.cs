@@ -36,6 +36,44 @@ public class test001 : MonoBehaviour
 
 
 
+        //gameobject
+        //         100            1000
+        //native   0.0007367134   0.007022858
+        //hot fix  0.006049       0.022096
+        //         8.5            3.1
+
+        //all in dll 还有很多IL代码的bug 不宜使用，而L# 无法用于大版本，当需要热更的代码太多时，无法适用
+        //for i     100000
+        //          0.0003578663   0.301976
+        //2for i    100000 
+        //          0.0006854534   0.59242
+
+
+        //hotfix
+        TestPerformance();
+        return;
+
+
+
+        //normal
+        float timeFloat = Time.realtimeSinceStartup;
+        for (int i = 0; i < 100000; i++)
+        { 
+        }
+        for (int i = 0; i < 100000; i++)
+        {
+        }
+        Debug.Log("Normal" + (Time.realtimeSinceStartup - timeFloat));
+        return;
+
+
+
+
+
+
+
+
+
         //use all in dll
 
         if (FixUtil.Instance.NeedFix("test001.TestPerformance"))
@@ -57,7 +95,7 @@ public class test001 : MonoBehaviour
 
 
        
-        float timeFloat = Time.realtimeSinceStartup;
+        float timeFloat1 = Time.realtimeSinceStartup;
 
 
 
@@ -65,7 +103,7 @@ public class test001 : MonoBehaviour
         {
             TestPerformance();
         }
-        Debug.Log(Time.realtimeSinceStartup - timeFloat);
+        Debug.Log(Time.realtimeSinceStartup - timeFloat1);
 
 
 
@@ -85,7 +123,7 @@ public class test001 : MonoBehaviour
             FixUtil.Instance.Fix(str, this);
             return;
         }
-        GameObject go = new GameObject();
+        //GameObject go = new GameObject();
     }
 
     public void SetName(string name)
