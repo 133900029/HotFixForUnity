@@ -1,0 +1,54 @@
+﻿ 
+
+
+--两种都可以
+--local Vector3 = UnityEngine.Vector3
+import "UnityEngine"
+
+
+function main()
+	print("GetFromCS")
+	interactive.StaticMethod("StaticMethod")--静态方法一定要点
+	--interactive:StaticMethod("StaticMethod")
+	local self = interactive.Instance()
+	--local self = interactive()--不能实例化继承mono的类
+	self:InstanceMethod("instance")
+	self.instanceStr = "strIn"--非静态变量一定要点
+	--self:instanceStr = "strIn"
+	self:GetInstanceStr()--非静态方法一定要冒号
+	--self.InstanceMethod("instance")
+	interactive.staticStr = "strStatic"--静态变量一定要点
+	--interactive:staticStr = "strStatic"
+	interactive.GetStaticStr()
+	PrintTxt("LuaPrintTxt")
+
+	local other = other()
+	other:Add(1,2)
+
+	local v = Vector3(1,2,3)
+	print(v)
+
+	print("Hellow")
+
+	--local otherLua = otherLua()
+	local otherLua = require 'otherLua'
+	--otherLua:main()
+	otherLua.str = "Hello Lua"
+	--print(otherLua["str"])
+	local x = {}
+	x.str = "Hello"
+	otherLua:main(x)
+	--otherLua.main(otherLua)
+	--otherLua:main()
+end 
+
+
+function PrintTxt(txt)
+	print(txt)
+end
+
+function NoArgs()
+	print("NoArgs")
+end
+
+

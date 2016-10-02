@@ -1,0 +1,10 @@
+﻿ 
+
+ local class = {}
+ --class["str"] = "Hello Lua"
+ function class:main(txt)
+	--print("otherLua")
+	print(txt.str)
+ end
+ 
+ return class
