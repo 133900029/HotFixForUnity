@@ -383,9 +383,74 @@
 
 --------------lua的面试题
 
+--------------lua的类
+ 
 
 
-print("end")
+Base = {}
+function Base:New(o)
+	o = o or {}         --子类 o 创建 父类关系  o 相当于是 self（base）的子类
+	setmetatable(o,self)--self 指 Base 相当于 this
+	self.__index = self --o 不存在方法的时候，会寻找（元表self）中的Index的方法
+	o:Init()            -- __index 相当于 父类指针
+	return o
+end
+function Base:Init()
+	self.mX = 10
+	self.mY = {y = 20}
+	print("Base:Init()")
+end
+function Base:SetX(x)
+	self.mX = x
+end
+function Base:GetX()
+	return self.mX
+end
+function Base:SetY(y)
+	self.mY.y = y
+end
+function Base:GetY()
+	return self.mY.y
+end
+--return Base
+
+ 
+ 
+ 
+--new 的时候 生成 meta 和 初始化1次
+Child = Base:New()--Child --> metadata --> Base
+function Child:New(o)
+	o = o or {}
+	setmetatable(o,self)
+	self.__index = self
+	o:Init()
+	return o
+end
+function Child:Init()
+	local parent = getmetatable(Child)
+	parent.__index.Init(self)--个人认为没用，因为child 本身就 是init后的base
+	self.mW = 100
+	print("Child:Init()")
+end
+function Child:SetW(w)
+	self.mW = w
+end
+function Child:GetW()
+	return self.mW
+end
+ 
+--new 的时候 生成 meta 和 初始化2次
+--    o  = self     o
+local wu = Child:New()-- wu --> metadata --> Child
+wu:SetW(200)
+print(wu:GetW())-->200
+--wu:SetX(44)
+print(wu:GetX())-->44
+ 
+
+
+
+--------------lua的类
 
 os.execute("pause") 
 
@@ -393,6 +458,7 @@ os.execute("pause")
 
 --lua基础
 --http://www.yiibai.com/lua/
+--http://www.runoob.com/lua/lua-tutorial.html
 
 --例子出处
 --http://my.jikexueyuan.com/ime/record/
@@ -403,11 +469,32 @@ os.execute("pause")
 --http://www.lua.org/manual/5.3/
 --http://www.lua.org/cgi-bin/demo
 
-
+--类和继承
 --http://blog.csdn.net/sgamerw/article/details/10024131
+--http://www.jb51.net/article/55724.htm---没有什么代表性
+
+
+
+
+
+--每个 table 和 userdata 拥有独立的 metatable
+
+--table
+--Lua 的一种数据结构用来帮助我们创建不同的数据类型，如：数字、字典等。
+
 --userdata
---setmetadata
---http://www.jb51.net/article/55724.htm
+--lua_newuserdata函数按照指定的大小分配一块内存，将对应的userdatum放到栈内，并返回内存块的地址
+--可用来封装C语言的struct结构
+--对两个 table 进行操作
+
+--setmetadata(设置元表)
+--你可以通过 setmetatable 函数来替换掉 table 的 metatable,你不能从 Lua 中改变其它任何类型的值的 metatable
+--一个 metatable 可以控制一个对象做数学运算操作、比较操作、连接操作、取长度操作、取下标操作时的行为
+
+--getmetadata(获取元表)
+--你可以通过 getmetatable 函数来查询到任何一个值的 metatable
+
+ 
 
 
 --注释快捷键
