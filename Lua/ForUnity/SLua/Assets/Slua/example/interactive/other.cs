@@ -12,7 +12,7 @@ public class other
 {
     public void Add(int a, int b)
     {
-        Debug.Log(a + b);
+        Debug.Log(string.Format("luatocs :{0}", a + b));
     }
 
 }

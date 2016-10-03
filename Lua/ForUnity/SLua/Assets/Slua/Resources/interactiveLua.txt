@@ -7,7 +7,10 @@ import "UnityEngine"
 
 
 function main()
-	print("GetFromCS")
+	
+
+
+	--lua调用cs--带mono
 	interactive.StaticMethod("StaticMethod")--静态方法一定要点
 	--interactive:StaticMethod("StaticMethod")
 	local self = interactive.Instance()
@@ -20,17 +23,19 @@ function main()
 	interactive.staticStr = "strStatic"--静态变量一定要点
 	--interactive:staticStr = "strStatic"
 	interactive.GetStaticStr()
-	PrintTxt("LuaPrintTxt")
 
+	
+	--lua调用cs--不带mono
 	local other = other()
 	other:Add(1,2)
 
+	--lua调用unity
 	local v = Vector3(1,2,3)
-	print(v)
+	print("luatounity", v)
 
-	print("Hellow")
-
-	--local otherLua = otherLua()
+ 
+ 	--lua调用lua
+	--local otherLua = otherLua()--用不了
 	local otherLua = require 'otherLua'
 	--otherLua:main()
 	otherLua.str = "Hello Lua"
@@ -40,15 +45,18 @@ function main()
 	otherLua:main(x)
 	--otherLua.main(otherLua)
 	--otherLua:main()
+
+
 end 
 
 
+--cs调用lua
 function PrintTxt(txt)
-	print(txt)
+	print("cstolua: ", txt)
 end
-
+--cs调用lua
 function NoArgs()
-	print("NoArgs")
+	print("cstolua: ", "NoArgs")
 end
 
 

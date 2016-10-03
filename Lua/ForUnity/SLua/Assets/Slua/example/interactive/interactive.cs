@@ -34,19 +34,19 @@ public class interactive : MonoBehaviour
 
     public static void StaticMethod(string txt)
     {
-        Debug.Log(txt);
+        Debug.Log(string.Format("luatocs :{0}",txt));
     }
     public void InstanceMethod(string instance)
     {
-        Debug.Log(instance);
+        Debug.Log(string.Format("luatocs :{0}", instance));
     }
     public static void GetStaticStr()
     {
-        Debug.Log(staticStr);
+        Debug.Log(string.Format("luatocs :{0}", "GetStaticStr"));
     }
     public void GetInstanceStr()
     {
-        Debug.Log(instanceStr);
+        Debug.Log(string.Format("luatocs :{0}", "GetInstanceStr"));
     }
 
     public static interactive Instance()
