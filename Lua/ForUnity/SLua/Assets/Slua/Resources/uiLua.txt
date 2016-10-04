@@ -1,0 +1,12 @@
+﻿
+import "UnityEngine"
+import "UnityEngine.UI"
+
+function main()
+
+print("StartLua")
+local go = GameObject("TxtObject")
+local text = go:AddComponent(Text)
+text.text = "TestUI"
+
+end
