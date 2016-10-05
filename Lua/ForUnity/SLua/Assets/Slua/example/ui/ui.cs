@@ -40,7 +40,41 @@ public class ui : MonoBehaviour {
 	}
 }
 
-//需要看下屏幕适配
+ 
+//屏幕适配
+
+//教程网站
+//http://edu.manew.com/course/2/learn#lesson/1
+
+//以中心为锚点
+
+//scale mode
+//1 constant pixel size//ui大小不会因为屏幕大小而改变。当屏幕太小会直接裁剪
+
+//2 scale with screen size
+//2.1 match width or height 以width 或者 height 进行拉伸，纵向或者横向ui显示在屏幕，可以调整match来只实现横向或者纵向
+//2.2 expand 通过缩放使所有ui都显示在屏幕。有的时候是横向缩放，有的时候是纵向缩放
+//2.3 shrink 纵向或者横向ui显示在屏幕。有的时候是横向缩放，有的时候是纵向缩放和2.1差不多
+
+//3 constant physical size//ui大小不会因为屏幕大小而改变。当屏幕太小会直接裁剪和1差不多
+
+//以四角为锚点
+//1同上
+//2.1 match width or height 太窄的时候ui会重叠
+//2.2 expand 窄的时候不重叠
+//2.3 shrink 太窄的时候ui会重叠 和2.1差不多
+//3同上
+
+//总结：用expand 和四角锚点
+//等于先缩放ui大小。再根据锚点获取对应的位置（和缩放一样）
+
+//分辨率
+//640X480的图片，表示这张图片在每一个长度的方向上都有640个像素点，而每一个宽度方向上都480个像素
+//4寸，主屏分辨率：800x480像素，通过勾股定理计算可知其长宽为3.430寸X2.058寸（87.1毫米X52.3毫米）。800/3.430=233，即每英寸长度有233个像素，每一个像素有87.1/800=0.109毫米大
+//233PPI（pixeleperinch英文缩写）
+
+//我们缩放一般是对分辨率进行，不是对屏幕大小进行
+
 
 //重启unity能解决按钮点击不了的问题
 
@@ -176,4 +210,6 @@ public class ui : MonoBehaviour {
 //Mask 
 //需要image和mask
 //如果image没引用。那么使用rect transform的边界
+
+
 
