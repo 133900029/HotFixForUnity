@@ -129,6 +129,8 @@ public class ui : MonoBehaviour {
 //tiled:重复显示超出的部分
 //filled:根据不同的填充方式从左到右填或者按圆心填充
 
+
+
 //UI text
 //Text：显示文字
 //line space：行距
@@ -139,3 +141,39 @@ public class ui : MonoBehaviour {
 //UI Events and Event triggers
 //给ui image 直接添加event trigger 可以实现点击功能
 //event system 决定如何相应其他ui（通过standalone模式或者touch模式）
+
+
+//UI slider
+//fill rect   为滑动条的填充
+//handle rect 为滑动条的按钮
+//whole numbers 为value 是否整数
+
+
+//ui transition
+//和button 的transition一样
+//分3种，color ，sprite ，animation
+//视频重复了
+
+
+
+//Scroll Rect
+//content:滑动图片
+//movement type
+//unrestricted:任意滑动
+//elastic:不能超出边框，会反弹
+//clamped:不能超出边框，不反弹
+//inertia:松开鼠标后，内容是否会继续移动
+//deceleration rate为0的时候，松开指针马上停止内容移动
+//Mask和image 同时使用
+
+
+
+//UI ScrollBar
+//value为位置
+//size 为手柄大小
+//number 为步长
+
+//Mask 
+//需要image和mask
+//如果image没引用。那么使用rect transform的边界
+
