@@ -1,0 +1,32 @@
+﻿import "UnityEngine"
+import "UnityEngine.UI"
+
+import "UnityEngine.EventSystems"
+import "UnityEngine.Events"
+
+function main()
+	print("useLua")
+	local button = GameObject.Find("Button")
+	local buttonscript = button:GetComponent(Button)
+	buttonscript.onClick:AddListener(
+		function()
+			print("button")
+		end
+	)
+
+	local image = GameObject.Find("Image")
+	--local imageScript = image:GetComponent(Image)
+
+	local entry = EventTrigger.Entry()
+	entry.callback:AddListener(clickImage)
+	image:AddComponent(EventTrigger).triggers:Add(entry)
+
+end
+
+function click()
+	print("click")
+end
+
+function clickImage(data)
+	print("clickImage")
+end
