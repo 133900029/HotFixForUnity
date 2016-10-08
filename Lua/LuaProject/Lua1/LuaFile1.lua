@@ -312,6 +312,44 @@
 --print(4 or 5)--4
 --print(nil or 5)--5
 
+--a = true
+--b = true
+
+--if ( a and b )
+--then
+--   print("a and b - 条件为 true" )
+--end
+
+--if ( a or b )
+--then
+--   print("a or b - 条件为 true" )
+--end
+
+--print("---------分割线---------" )
+
+---- 修改 a 和 b 的值
+--a = false
+--b = true
+
+--if ( a and b )
+--then
+--   print("a and b - 条件为 true" )
+--else
+--   print("a and b - 条件为 false" )
+--end
+
+--if ( not( a and b) )
+--then
+--   print("not( a and b) - 条件为 true" )
+--else
+--   print("not( a and b) - 条件为 false" )
+--end
+
+--and 第一个为真就返回第二个，第一个为假就返回第一个
+--or 第一个为真就返回第一个，第一个为假就返回第二个
+--当变量为true和false 的时候和C#一样
+--当变量是数字的时候就按and 和or的规则
+
 --x = x or y
 --当x没值时，设置成y
 --(a and b) or c
@@ -387,70 +425,79 @@
  
 
 
-Base = {}
-function Base:New(o)
-	o = o or {}         --子类 o 创建 父类关系  o 相当于是 self（base）的子类
-	setmetatable(o,self)--self 指 Base 相当于 this
-	self.__index = self --o 不存在方法的时候，会寻找（元表self）中的Index的方法
-	o:Init()            -- __index 相当于 父类指针
-	return o
-end
-function Base:Init()
-	self.mX = 10
-	self.mY = {y = 20}
-	print("Base:Init()")
-end
-function Base:SetX(x)
-	self.mX = x
-end
-function Base:GetX()
-	return self.mX
-end
-function Base:SetY(y)
-	self.mY.y = y
-end
-function Base:GetY()
-	return self.mY.y
-end
---return Base
+--Base = {}
+--function Base:New(o)
+--	o = o or {}         --子类 o 创建 父类关系  o 相当于是 self（base）的子类
+--	setmetatable(o,self)--self 指 Base 相当于 this
+--	self.__index = self --o 不存在方法的时候，会寻找（元表self）中的Index的方法
+--	o:Init()            -- __index 相当于 父类指针
+--	return o
+--end
+--function Base:Init()
+--	self.mX = 10
+--	self.mY = {y = 20}
+--	print("Base:Init()")
+--end
+--function Base:SetX(x)
+--	self.mX = x
+--end
+--function Base:GetX()
+--	return self.mX
+--end
+--function Base:SetY(y)
+--	self.mY.y = y
+--end
+--function Base:GetY()
+--	return self.mY.y
+--end
+----return Base
 
- 
- 
- 
---new 的时候 生成 meta 和 初始化1次
-Child = Base:New()--Child --> metadata --> Base
-function Child:New(o)
-	o = o or {}
-	setmetatable(o,self)
-	self.__index = self
-	o:Init()
-	return o
-end
-function Child:Init()
-	local parent = getmetatable(Child)
-	parent.__index.Init(self)--个人认为没用，因为child 本身就 是init后的base
-	self.mW = 100
-	print("Child:Init()")
-end
-function Child:SetW(w)
-	self.mW = w
-end
-function Child:GetW()
-	return self.mW
-end
- 
---new 的时候 生成 meta 和 初始化2次
---    o  = self     o
-local wu = Child:New()-- wu --> metadata --> Child
-wu:SetW(200)
-print(wu:GetW())-->200
---wu:SetX(44)
-print(wu:GetX())-->44
+
+
+
+----new 的时候 生成 meta 和 初始化1次
+--Child = Base:New()--Child --> metadata --> Base
+--function Child:New(o)
+--	o = o or {}
+--	setmetatable(o,self)
+--	self.__index = self
+--	o:Init()
+--	return o
+--end
+--function Child:Init()
+--	local parent = getmetatable(Child)
+--	parent.__index.Init(self)--个人认为没用，因为child 本身就 是init后的base
+--	self.mW = 100
+--	print("Child:Init()")
+--end
+--function Child:SetW(w)
+--	self.mW = w
+--end
+--function Child:GetW()
+--	return self.mW
+--end
+
+----new 的时候 生成 meta 和 初始化2次
+----    o  = self     o
+--local wu = Child:New()-- wu --> metadata --> Child
+--wu:SetW(200)
+--print(wu:GetW())-->200
+----wu:SetX(44)
+--print(wu:GetX())-->44
  
 
 
 
 --------------lua的类
+
+--------------标准库
+
+--assert(string)--执行代码字符串
+--dofile(xxx.lua)--执行代码
+
+
+--------------标准库
+
 
 os.execute("pause") 
 
