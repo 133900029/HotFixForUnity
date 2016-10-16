@@ -499,6 +499,271 @@
 --------------标准库
 
 
+
+
+ 
+
+
+--两种都可以
+--local Vector3 = UnityEngine.Vector3
+--import "UnityEngine"
+
+--    local i = 0
+
+--	print("main")
+
+--	while(i < 5)
+--	do
+--		i = i + 1
+--		print("while", i)
+--	end
+
+--	for i = 1 , 10 , 1
+--	do
+--		print("for:", i)
+--	end
+
+--变量 = 非变量
+--key = value
+--key不能为数字 1 不能为 "1"
+--key可以为字母 a 但不能是 "a"
+--value可以为数字 1 可以为 "1"
+--value可以为字母 "a" 不可以为字母a
+--key一定要字母且不带引号--不能对数字和字符串赋值
+--value只要不是字母 a就可以--变量不能作为value
+
+--非变量 = 非变量
+--[key] = value
+--key可以为1 或者"1"
+--key可以为"a" 不能为a
+--value可以为1 或者 "1"
+--value可以为"a" 不能为a
+--key不能为a--变量不能作为key
+--value不能为a--变量不能作为value
+
+--ipairs array
+--pairs dictionary
+ 
+--array = { key = "value", "2", "5", "3", "test"}--key = "value" 在使用table的时候不包括在内
+--for k,v in ipairs(array)
+--do
+--	print("ipairs", k, ":", v)
+--end
+
+--local x = 0
+--repeat 
+--	print("repeat:", x)
+--	x = x + 1
+--	if( x > 3) then
+--	break
+--	end
+--until(x > 5)
+
+--local v = 1
+--if(v > 7) then 
+--	print("v > 7")
+--elseif(v > 10) then
+--	print("v > 10")
+--else
+--	print("else")
+--end
+
+
+--print("concat:", table.concat(array,":"))
+--print("concat:", table.concat(array, ":", 1, 2))
+----数组开始的位置和结束的位置 且用：链接
+--table.insert(array, "in")--没有返回
+--print("insert:", table.concat(array, ":"))
+--table.insert(array, 1, "first")--没有返回
+--print("insert:", table.concat(array, ":"))
+
+--print("count:", #array)
+--print("count:", table.maxn(array))
+
+--table.remove(array, "1")--没有返回
+--print("remove:", table.concat(array, ":"))
+
+--table.sort(array)
+--print("sort", table.concat(array, ":"))
+
+--sortFunc = function(a, b) return b < a end
+--table.sort(array, sortFunc)
+--print("sortFunc", table.concat(array, ":"))
+
+--table.foreach(array, function(i, v) print("foreach", i, v) end)
+
+----print(getn(array))--table 元素个数
+
+--tbl = {[1] = "a", [2] = "b", [3] = "c", [26] = "z"}
+--print("#:", #tbl)--3               -- 因为26和之前的数字不连续, 所以不算在数组部分内
+--print("maxn:", table.maxn(tbl))--26   --table.maxn()函数返回指定table中所有正数key值中最大的key值
+
+
+--链接用.. 多个参数用...
+-- function average(...)
+--   result = 0
+--   local arg={...}
+--   for i,v in ipairs(arg) do
+--      result = result + v
+--   end
+--   print("总共传入 " .. #arg .. " 个数")
+--   return result/#arg
+--end
+
+--print("平均值为",average(10,5,3,4,5,6))
+
+--字符串 '' "" [[]]
+
+--print("upper:", string.upper("aaa"))
+--print("lower:", string.lower("AAA"))
+
+--local gsub = string.gsub("abcdefc", "c", "x", 2)
+--print("gsub:", gsub)
+
+--local find = string.find("hello lua yes", "lua")
+--print("find:", find)
+
+--local reverse = string.reverse("abcd")
+--print("reverse:", reverse)
+
+--local format = string.format("hello %d %s", 10, "what")
+--print("format:", format)
+
+--local char = string.char(97, 98, 99)
+--print("char:", char)
+
+--local byte = string.byte("ABCD")--默认转换第一个
+--print("byte:", byte)
+
+--local len = string.len("ABCDE")
+--print("len:", len)
+
+--local rep = string.rep("ABC", 2)
+--print("rep:", rep)
+
+--local x = "xyz"
+--local z = "abc"
+--print("..:", x..z)
+
+--require("x")
+--x.a
+
+--local m = require("module")
+--m.a
+
+--local path = "/usr/local/lua/lib/libluasocket.so"
+-- 或者 path = "C:\\windows\\luasocket.dll"，这是 Window 平台下
+--local f = assert(loadlib(path, "luaopen_socket"))--类名或者包名
+--f()  -- 真正打开库
+
+
+--coroutine.create()
+
+
+--coroutine.create()	创建coroutine，返回coroutine， 参数是一个函数，当和resume配合使用的时候就唤醒函数调用
+--coroutine.resume()	重启coroutine，和create配合使用
+--coroutine.yield()	    挂起coroutine，将coroutine设置为挂起状态，这个和resume配合使用能有很多有用的效果
+--coroutine.status()	查看coroutine的状态  注：coroutine的状态有三种：dead，suspend，running，具体什么时候有这样的状态请参考下面的程序
+--coroutine.wrap（）	创建coroutine，返回一个函数，一旦你调用这个函数，就进入coroutine，和create功能重复
+--coroutine.running()	返回正在跑的coroutine，一个coroutine就是一个线程，当使用running的时候，就是返回一个corouting的线程号
+
+--co = coroutine.create(
+--	function(varI, varJ)
+--		print("coroutine.create:", varI)
+--	end
+--)
+
+--coroutine.resume(co, 3, 4)
+--print("coroutine.status:", coroutine.status(co))
+
+--co1 = coroutine.wrap(
+--	function(varI ,varJ)
+--		print("coroutine.wrap:", varI)
+--	end
+--)
+--co1(4)
+
+--co2 = coroutine.create(
+--	function()
+--		for var = 1, 10, 1
+--		do
+
+--			if(var == 3)
+--			then
+--				print("coroutine.yield:", var)
+--			end
+--				print("coroutine:", var)
+--			coroutine.yield()
+--		end
+--	end
+--)
+
+--coroutine.resume(co2)
+--coroutine.resume(co2)
+--coroutine.resume(co2)
+--print("coroutine.running:", coroutine.running())
+
+
+
+--function foo (a)
+--    print("foo 函数输出", a)
+--    return coroutine.yield(2 * a) -- 返回  2*2 的值
+--end
+
+--co = coroutine.create(function (a , b)
+--    print("第一次协同程序执行输出", a, b) -- co-body 1 10
+--    local r = foo(a + 1)--foo(2)
+--    --r 为传入去的 "r"
+
+--    print("第二次协同程序执行输出", r)--r
+--    local r, s = coroutine.yield(a + b, a - b)  -- 1+10=11   1-10=-9
+--	--r, s  == x, y
+
+--    print("第三次协同程序执行输出", r, s)
+--    return b, "结束协同程序"                   -- b的值为第二次调用协同程序时传入
+--end)
+
+--print("main", coroutine.resume(co, 1, 10)) -- true, 4
+--print("main", coroutine.resume(co, "r")) -- true 11 -9
+--print("main", coroutine.resume(co, "x", "y")) -- true 10 "结束协同程序"
+--print("main", coroutine.resume(co, "x", "y")) -- cannot resume dead coroutine
+
+--local y = coroutine.resume(co,4) 
+--local r = coroutine.yield(x)--返回给resume x值，当下次进入，会从resume获取r值
+
+
+
+
+
+--file = io.open("test.lua", "r")
+--io.input(file)
+--print(io.read())
+--io.close(file)
+--file = io.open("test.lua", "a")
+--io.output(file)
+--io.write("--  test.lua 文件末尾注释")
+--io.close(file)
+
+
+--file = io.open("C:\\Users\\Administrator\\Desktop\\x.lua", "r")
+--io.input(file)
+--print("io:", io.read())
+--io.close(file)
+--file = io.open("C:\\Users\\Administrator\\Desktop\\x.lua", "w")
+--io.output(file)
+--io.write("bbb")
+--io.close(file)
+
+--把错误打印
+-- assert(type(b) == "number", "b 不是一个数字")
+
+--sql开源数据库
+--require "luasql.mysql"
+
+
+
+
+
 os.execute("pause") 
 
 --slua + new UI
