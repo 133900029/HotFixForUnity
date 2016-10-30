@@ -41,8 +41,8 @@
 --end
 
 -- function repeatNum()
---    for var=1,100 do
---    print(var)
+--    for i=1,100 do
+--    print(i)
 --    end
 -- end
 
